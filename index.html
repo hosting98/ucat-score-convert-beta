@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCAT Score Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dark-mode">
+    <nav class="top-bar">
+        <div class="nav-content">
+            <h1>UCAT Score Tracker</h1>
+            <div class="nav-links">
+                <button class="nav-btn active" data-page="score-input">Score Input</button>
+                <button class="nav-btn" data-page="focus-practice">Focus Practice</button>
+                <button class="nav-btn" data-page="full-mock">Full Mock</button>
+                <button class="nav-btn" data-page="consistency">Consistency</button>
+                <button class="nav-btn" data-page="calendar">Calendar</button>
+                <button class="nav-btn" data-page="score-log">Score Log</button>
+            </div>
+            <button id="theme-toggle" class="theme-toggle">
+                <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Score Input Page -->
+        <section id="score-input" class="page active">
+            <div class="container">
+                <div class="score-input-form">
+                    <h2>Enter New Score</h2>
+                    <div class="selector-group">
+                        <div class="test-type-selector">
+                            <label>Test Type</label>
+                            <button class="test-type-btn active" data-type="focus">Focus Practice</button>
+                            <button class="test-type-btn" data-type="full">Full Mock</button>
+                        </div>
+                        <div class="platform-selector">
+                            <label>Platform</label>
+                            <button class="platform-btn active" data-platform="medify">Medify</button>
+                            <button class="platform-btn" data-platform="medentry">Medentry</button>
+                        </div>
+                    </div>
+                    <form id="score-form">
+                        <div class="input-group">
+                            <label for="mock-name">Mock Name</label>
+                            <input type="text" id="mock-name">
+                        </div>
+                        <div class="input-group">
+                            <label for="test-date">Test Date</label>
+                            <input type="date" id="test-date" required>
+                        </div>
+                        <div class="score-inputs">
+                            <div class="input-group">
+                                <label for="vr-score">Verbal Reasoning</label>
+                                <div class="score-input">
+                                    <input type="number" id="vr-score" min="0" required>
+                                    <span class="separator">/</span>
+                                    <input type="number" id="vr-total" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="dm-score">Decision Making</label>
+                                <div class="score-input">
+                                    <input type="number" id="dm-score" min="0" required>
+                                    <span class="separator">/</span>
+                                    <input type="number" id="dm-total" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="qr-score">Quantitative Reasoning</label>
+                                <div class="score-input">
+                                    <input type="number" id="qr-score" min="0" required>
+                                    <span class="separator">/</span>
+                                    <input type="number" id="qr-total" required>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-btn">Save Score</button>
+                    </form>
+                </div>
+                <div class="recent-scores">
+                    <h2>Recent Scores</h2>
+                    <div class="scores-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Focus Practice Page -->
+        <section id="focus-practice" class="page">
+            <div class="container">
+                <canvas id="focus-practice-chart"></canvas>
+            </div>
+        </section>
+
+        <!-- Full Mock Page -->
+        <section id="full-mock" class="page">
+            <div class="container">
+                <canvas id="full-mock-chart"></canvas>
+            </div>
+        </section>
+
+        <!-- Consistency Page -->
+        <section id="consistency" class="page">
+            <div class="container">
+                <canvas id="consistency-chart"></canvas>
+            </div>
+        </section>
+
+        <!-- Calendar Page -->
+        <section id="calendar" class="page">
+            <div class="container">
+                <div id="calendar-view"></div>
+            </div>
+        </section>
+
+        <!-- Score Log Page -->
+        <section id="score-log" class="page">
+            <div class="container">
+                <h2>Score Log</h2>
+                <div class="filter-options">
+                    <label for="sort-by">Sort By:</label>
+                    <select id="sort-by">
+                        <option value="date">Date</option>
+                        <option value="vr">VR</option>
+                        <option value="dm">DM</option>
+                        <option value="qr">QR</option>
+                    </select>
+                    <label for="order">Order:</label>
+                    <select id="order">
+                        <option value="desc">Descending</option>
+                        <option value="asc">Ascending</option>
+                    </select>
+                </div>
+                <div class="log-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Platform</th>
+                                <th>Name</th>
+                                <th>VR</th>
+                                <th>DM</th>
+                                <th>QR</th>
+                            </tr>
+                        </thead>
+                        <tbody id="log-body">
+                            <!-- Score entries will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/conversion-table.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
